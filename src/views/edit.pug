@@ -3,6 +3,8 @@ extends base
 block content 
     h4 Change Tiltle of video
 
-    form(method="POST")
+    form(method="POST")     
         input(name="title", placeholder="Video Title", value=video.title, required)
+        input(name="description", placeholder="Description", value=video.description, required, type="text")
+        input(name="hashtags", placeholder="Hashtags, separated by comma.", value=video.hashtags.join(), required, type="text")
         input(value="Save", type="submit")
