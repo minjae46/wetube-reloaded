@@ -11,6 +11,7 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const { id } = req.params;
+  // const id = req.params.id;
   const video = await Video.findById(id);
   if (!video) {
     return res.render("404", { pageTitle: "Video not found." });
@@ -21,7 +22,6 @@ export const watch = async (req, res) => {
 export const getEdit = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
-  //video 오브젝트 전체를 가져옴
   if (!video) {
     return res.render("404", { pageTitle: "Video not found." });
   }
