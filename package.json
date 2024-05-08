@@ -1,24 +1,18 @@
 {
-  "name": "wetube",
+  "name": "youtube",
   "version": "1.0.0",
   "description": "The best way to watch videos.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/minjae46/wetube-reloaded.git"
+    "url": "git+https://github.com/minjae46/youtube-reloaded.git"
   },
   "scripts": {
     "dev": "nodemon --exec babel-node src/init.js"
   },
-  "author": "Minjae Jo",
-  "license": "JMJ",
-  "bugs": {
-    "url": "https://github.com/minjae46/wetube-reloaded/issues"
-  },
-  "homepage": "https://github.com/minjae46/wetube-reloaded#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "express": "^4.18.2",
-    "mongoose": "^7.2.4",
+    "express": "^4.19.2",
+    "mongoose": "^7.6.11",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
@@ -26,6 +20,6 @@
     "@babel/core": "^7.20.12",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.22"
   }
 }
