@@ -2,7 +2,7 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   try {
-    const videos = await Video.find({});
+    const videos = await Video.find({}).sort({ createdAt: "desc" });
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
     return res.render("server-error");
@@ -31,7 +31,8 @@ export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
   const video = await Video.exists({ _id: id });
-  //조건에 해당하는 데이터의 여부에 따라 true/false 반환
+  // exists()는 인자로 id가 아니라 조건을 받는다. 따라서 id가 아닌 _id:id를 쓴다.
+  // 조건에 해당하는 데이터의 여부에 따라 true/false 반환.
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
@@ -67,7 +68,6 @@ export const postUpload = async (req, res) => {
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
   await Video.findByIdAndDelete(id);
-  // findOneAndDelete({_id:id})를 줄인 것임
   return res.redirect("/");
 };
 
@@ -79,9 +79,7 @@ export const search = async (req, res) => {
       title: {
         $regex: new RegExp(keyword, "i"),
         //contain 방식의 정규식
-        //"i" : 대소문자 구분 없이 검색
-        //`^${keyword}` : 검색어로 시작하는 데이터만 검색
-        //`${keyword}$` : 검색어로 끝나는 데이터만 검색
+        //"i" : 대소문자 구분 없이 검색하게 해주는 옵션
       },
     });
   }
