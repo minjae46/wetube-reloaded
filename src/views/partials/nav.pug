@@ -1,0 +1,21 @@
+//- Pug 템플릿은 기본적으로 express에서 오는 locals object를 전역 변수로 받는다. 
+nav         
+    ul 
+        li 
+            a(href="/") Home
+        li 
+            a(href="/search") Search
+        if loggedIn 
+            li 
+                a(href="/users/logout") Log out
+            li 
+                a(href="/users/edit") Edit Profile
+            li 
+                a(href="/videos/upload") Upload Video
+        else
+            li
+                    a(href="/join") Join
+            li
+                    a(href="/login") Log in
+   
+
