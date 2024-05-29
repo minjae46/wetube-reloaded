@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import routeRouter from "./routers/routeRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -16,9 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 //form의 value를 자바스크립트 object 형식으로 변환하여 express app이 form 데이터를 다룰 수 있게 해주는 메서드.
 app.use(
   session({
-    secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 app.use(localsMiddleware);

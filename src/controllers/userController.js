@@ -5,17 +5,17 @@ export const getJoin = (req, res) => res.render("Join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
   const { name, username, email, password, password2, location } = req.body;
   const pageTitle = "Join";
-  if (password !== password2) {
-    return res.status(400).render("join", {
-      pageTitle,
-      errorMessage: "Password confirmation does not match.",
-    });
-  }
   const exists = await User.exists({ $or: [{ username }, { email }] });
   if (exists) {
     return res.status(400).render("join", {
       pageTitle,
       errorMessage: "This username/email is already taken.",
+    });
+  }
+  if (password !== password2) {
+    return res.status(400).render("join", {
+      pageTitle,
+      errorMessage: "Both passwords should be equal.",
     });
   }
   try {
@@ -42,13 +42,13 @@ export const remove = (req, res) => res.send("Delete User");
 export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Log In" });
 export const postLogin = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   const pageTitle = "Log In";
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
-      errorMessage: "An account with this username does not exists.",
+      errorMessage: "An account with this email does not exists.",
     });
   }
   const ok = await bcrypt.compare(password, user.password);
@@ -60,9 +60,13 @@ export const postLogin = async (req, res) => {
   }
   req.session.loggedIn = true;
   req.session.user = user;
+  //session object에 정보 저장
   return res.redirect("/");
 };
 
-export const logout = (req, res) => res.send("Logout");
+export const logout = (req, res) => {
+  req.session.destroy();
+  return res.redirect("/");
+};
 
 export const see = (req, res) => res.send("See User");
